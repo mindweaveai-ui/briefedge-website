@@ -246,12 +246,16 @@
     .briefing-bg .section-label { color: var(--blue); }
 
     .briefing-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      display: flex;
+      flex-wrap: wrap;
       gap: 16px;
+      justify-content: center;
     }
 
+
     .briefing-item {
+      flex: 1 1 260px;
+      max-width: 300px;
       background: var(--navy-mid);
       border: 1px solid var(--navy-light);
       border-left: 3px solid var(--blue);
@@ -271,17 +275,25 @@
     /* PRICING */
     .pricing-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 24px;
-      max-width: 720px;
+      max-width: 960px;
       margin: 0 auto;
+    }
+
+    @media (max-width: 700px) {
+      .pricing-grid { grid-template-columns: 1fr; }
     }
 
     .pricing-card {
       border: 1px solid var(--gray-200);
       border-radius: var(--radius);
       padding: 36px 32px;
+      display: flex;
+      flex-direction: column;
     }
+
+    .pricing-features { flex: 1; }
 
     .pricing-card.featured {
       border: 2px solid var(--blue);
@@ -559,18 +571,6 @@
     <p class="section-sub" style="margin: 0 auto 56px;">Pay only for what you use. No contracts, cancel any time.</p>
     <div class="pricing-grid">
       <div class="pricing-card">
-        <div class="pricing-tier">Pro</div>
-        <div class="pricing-price">$19<span>/mo</span></div>
-        <p class="pricing-desc">For individuals and small teams keeping a close eye on the competition.</p>
-        <ul class="pricing-features">
-          <li>Up to 5 competitors</li>
-          <li>Weekly email briefing</li>
-          <li>7-section AI analysis</li>
-          <li>Powered by Claude AI</li>
-        </ul>
-        <a class="btn-plan" href="https://apify.com/ivizaai/competitor-intelligence" target="_blank">Get started</a>
-      </div>
-      <div class="pricing-card">
         <div class="pricing-tier">Free</div>
         <div class="pricing-price">$0<span>/run</span></div>
         <p class="pricing-desc">Run directly on Apify and pay only for compute. No subscription needed.</p>
@@ -581,6 +581,18 @@
           <li>No commitment</li>
         </ul>
         <a class="btn-plan" href="https://apify.com/ivizaai/competitor-intelligence" target="_blank">Try on Apify</a>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-tier">Pro</div>
+        <div class="pricing-price">$19<span>/mo</span></div>
+        <p class="pricing-desc">For individuals and small teams keeping a close eye on the competition.</p>
+        <ul class="pricing-features">
+          <li>Up to 5 competitors</li>
+          <li>Weekly email briefing</li>
+          <li>7-section AI analysis</li>
+          <li>Powered by Claude AI</li>
+        </ul>
+        <a class="btn-plan" href="https://apify.com/ivizaai/competitor-intelligence" target="_blank">Get started</a>
       </div>
       <div class="pricing-card featured">
         <div class="pricing-badge">Most popular</div>
