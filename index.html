@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BriefEdge — Weekly Competitive Intelligence, On Autopilot</title>
+  <meta name="description" content="Stop manually checking competitor websites. BriefEdge monitors your competitors and delivers a plain-English AI briefing every Monday morning.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #0F1F3D;
+      --navy-mid: #152847;
+      --navy-light: #1a3460;
+      --blue: #5B9BD5;
+      --blue-light: #7ab3e0;
+      --white: #ffffff;
+      --gray-100: #f8f9fc;
+      --gray-200: #e8ecf2;
+      --gray-400: #8fa8c8;
+      --gray-600: #4a6a8a;
+      --text: #1a1a1a;
+      --radius: 8px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background: var(--white);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* NAV */
+    nav {
+      background: var(--navy);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.5px;
+    }
+
+    .nav-logo span { color: var(--blue); }
+
+    .nav-cta {
+      background: var(--blue);
+      color: var(--white);
+      padding: 8px 20px;
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .nav-cta:hover { background: var(--blue-light); text-decoration: none; }
+
+    /* HERO */
+    .hero {
+      background: var(--navy);
+      padding: 96px 24px 80px;
+      text-align: center;
+      border-bottom: 3px solid var(--blue);
+    }
+
+    .hero-label {
+      display: inline-block;
+      background: var(--navy-light);
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.15;
+      letter-spacing: -1px;
+      max-width: 760px;
+      margin: 0 auto 20px;
+    }
+
+    .hero h1 span { color: var(--blue); }
+
+    .hero p {
+      font-size: 20px;
+      color: var(--gray-400);
+      max-width: 560px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: var(--white);
+      padding: 14px 28px;
+      border-radius: var(--radius);
+      font-size: 16px;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .btn-primary:hover { background: var(--blue-light); text-decoration: none; }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--white);
+      padding: 14px 28px;
+      border-radius: var(--radius);
+      font-size: 16px;
+      font-weight: 600;
+      border: 1px solid rgba(255,255,255,0.25);
+      display: inline-block;
+    }
+
+    .btn-secondary:hover { border-color: var(--white); text-decoration: none; }
+
+    /* SECTIONS */
+    section { padding: 80px 24px; }
+
+    .container { max-width: 960px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      color: var(--blue);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(26px, 4vw, 38px);
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.5px;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .section-sub {
+      font-size: 18px;
+      color: #555;
+      max-width: 580px;
+      margin-bottom: 56px;
+      line-height: 1.6;
+    }
+
+    /* PROBLEM */
+    .problem { background: var(--gray-100); }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .problem-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 28px;
+    }
+
+    .problem-card .icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
+    .problem-card h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .problem-card p { font-size: 15px; color: #666; }
+
+    /* HOW IT WORKS */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 32px;
+    }
+
+    .step {
+      display: flex;
+      gap: 20px;
+    }
+
+    .step-num {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      background: var(--navy);
+      color: var(--blue);
+      font-size: 18px;
+      font-weight: 700;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .step h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .step p { font-size: 15px; color: #555; }
+
+    /* BRIEFING SECTIONS */
+    .briefing-bg { background: var(--navy); }
+
+    .briefing-bg .section-title { color: var(--white); }
+    .briefing-bg .section-sub { color: var(--gray-400); }
+    .briefing-bg .section-label { color: var(--blue); }
+
+    .briefing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .briefing-item {
+      background: var(--navy-mid);
+      border: 1px solid var(--navy-light);
+      border-left: 3px solid var(--blue);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+    }
+
+    .briefing-item h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+
+    .briefing-item p { font-size: 13px; color: var(--gray-400); }
+
+    /* PRICING */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .pricing-card {
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 36px 32px;
+    }
+
+    .pricing-card.featured {
+      border: 2px solid var(--blue);
+      position: relative;
+    }
+
+    .pricing-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--blue);
+      color: var(--white);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 4px 14px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .pricing-tier {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--blue);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .pricing-price {
+      font-size: 42px;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -1px;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .pricing-price span { font-size: 18px; font-weight: 400; color: #888; }
+
+    .pricing-desc {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .pricing-features {
+      list-style: none;
+      margin-bottom: 28px;
+    }
+
+    .pricing-features li {
+      font-size: 14px;
+      color: #444;
+      padding: 6px 0;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .pricing-features li::before {
+      content: "✓";
+      color: var(--blue);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .btn-plan {
+      display: block;
+      text-align: center;
+      padding: 12px;
+      border-radius: var(--radius);
+      font-size: 15px;
+      font-weight: 600;
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .btn-plan:hover { background: var(--navy-light); text-decoration: none; }
+    .featured .btn-plan { background: var(--blue); }
+    .featured .btn-plan:hover { background: var(--blue-light); }
+
+    /* EMAIL CAPTURE */
+    .capture { background: var(--gray-100); text-align: center; }
+
+    .capture .section-title { max-width: 560px; margin: 0 auto 12px; }
+    .capture .section-sub { margin: 0 auto 40px; }
+
+    .capture-form {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .capture-form input {
+      flex: 1;
+      min-width: 220px;
+      padding: 12px 16px;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      font-size: 15px;
+      outline: none;
+    }
+
+    .capture-form input:focus { border-color: var(--blue); }
+
+    .capture-form button {
+      background: var(--blue);
+      color: var(--white);
+      border: none;
+      padding: 12px 24px;
+      border-radius: var(--radius);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .capture-form button:hover { background: var(--blue-light); }
+
+    .capture-note { font-size: 13px; color: #888; margin-top: 12px; }
+
+    /* FOOTER */
+    footer {
+      background: var(--navy);
+      padding: 40px 24px;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    .footer-logo span { color: var(--blue); }
+
+    footer p { font-size: 13px; color: var(--gray-600); margin-bottom: 16px; }
+
+    .footer-links { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
+
+    .footer-links a { font-size: 13px; color: var(--gray-400); }
+    .footer-links a:hover { color: var(--white); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Brief<span>Edge</span></div>
+  <a class="nav-cta" href="https://apify.com/ivizaai/competitor-intelligence" target="_blank">Try on Apify</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-label">Competitive Intelligence · Automated</div>
+  <h1>Stop manually checking<br><span>competitor websites.</span></h1>
+  <p>BriefEdge monitors your competitors and delivers a plain-English AI briefing to your inbox every Monday morning.</p>
+  <div class="hero-buttons">
+    <a class="btn-primary" href="https://apify.com/ivizaai/competitor-intelligence" target="_blank">Try it on Apify</a>
+    <a class="btn-secondary" href="#early-access">Get early access</a>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem">
+  <div class="container">
+    <div class="section-label">The problem</div>
+    <h2 class="section-title">You're flying blind on your competitors</h2>
+    <p class="section-sub">Most teams know they should be watching competitors. Almost none do it consistently.</p>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="icon">⏱️</div>
+        <h3>It takes too long</h3>
+        <p>Checking 5–10 competitor websites manually takes hours. Nobody has time for it every week.</p>
+      </div>
+      <div class="problem-card">
+        <div class="icon">🔔</div>
+        <h3>You miss the signals</h3>
+        <p>Pricing changes, new hires, partnerships — the signals that predict their next move are easy to miss.</p>
+      </div>
+      <div class="problem-card">
+        <div class="icon">💸</div>
+        <h3>Enterprise tools cost a fortune</h3>
+        <p>Klue and Crayon are great — if you have $15k/year to spend. Most teams don't.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="container">
+    <div class="section-label">How it works</div>
+    <h2 class="section-title">Set up once. Get briefed every week.</h2>
+    <p class="section-sub">Three steps and you're done. BriefEdge handles everything else.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <h3>Add your competitors</h3>
+          <p>Paste in the URLs of up to 15 competitors. Add a note on why you're watching each one.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <h3>BriefEdge monitors them</h3>
+          <p>Every Monday, the actor scrapes their homepage, pricing, jobs, blog, and changelog.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <h3>You get the briefing</h3>
+          <p>A plain-English AI summary lands in your inbox — what changed, and what it means for you.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BRIEFING SECTIONS -->
+<section class="briefing-bg">
+  <div class="container">
+    <div class="section-label">What's in every briefing</div>
+    <h2 class="section-title">Seven sections. Zero fluff.</h2>
+    <p class="section-sub">Each briefing covers the signals that matter most, written in plain English by Claude AI.</p>
+    <div class="briefing-grid">
+      <div class="briefing-item">
+        <h4>Messaging &amp; positioning</h4>
+        <p>Has their homepage copy shifted? New angle, new target customer?</p>
+      </div>
+      <div class="briefing-item">
+        <h4>Pricing changes</h4>
+        <p>New tiers, removed plans, pricing page restructures.</p>
+      </div>
+      <div class="briefing-item">
+        <h4>Partnership signals</h4>
+        <p>New integrations often signal a strategic pivot before it's announced.</p>
+      </div>
+      <div class="briefing-item">
+        <h4>Hiring signals</h4>
+        <p>What roles they're hiring tells you what they're building next.</p>
+      </div>
+      <div class="briefing-item">
+        <h4>Product updates</h4>
+        <p>Latest from their blog, changelog, and release notes.</p>
+      </div>
+      <div class="briefing-item">
+        <h4>Watch list</h4>
+        <p>Early signals that don't fit a category but are worth tracking.</p>
+      </div>
+      <div class="briefing-item">
+        <h4>So what?</h4>
+        <p>The AI's plain-English take on what all this means for your product.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container" style="text-align:center;">
+    <div class="section-label">Pricing</div>
+    <h2 class="section-title">Simple, transparent pricing</h2>
+    <p class="section-sub" style="margin: 0 auto 56px;">Pay only for what you use. No contracts, cancel any time.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="pricing-tier">Pro</div>
+        <div class="pricing-price">$19<span>/mo</span></div>
+        <p class="pricing-desc">For individuals and small teams keeping a close eye on the competition.</p>
+        <ul class="pricing-features">
+          <li>Up to 5 competitors</li>
+          <li>Weekly email briefing</li>
+          <li>7-section AI analysis</li>
+          <li>Powered by Claude AI</li>
+        </ul>
+        <a class="btn-plan" href="https://apify.com/ivizaai/competitor-intelligence" target="_blank">Get started</a>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-tier">Free</div>
+        <div class="pricing-price">$0<span>/run</span></div>
+        <p class="pricing-desc">Run directly on Apify and pay only for compute. No subscription needed.</p>
+        <ul class="pricing-features">
+          <li>Unlimited competitors</li>
+          <li>Pay per run (~$0.10)</li>
+          <li>Full AI briefing</li>
+          <li>No commitment</li>
+        </ul>
+        <a class="btn-plan" href="https://apify.com/ivizaai/competitor-intelligence" target="_blank">Try on Apify</a>
+      </div>
+      <div class="pricing-card featured">
+        <div class="pricing-badge">Most popular</div>
+        <div class="pricing-tier">Team</div>
+        <div class="pricing-price">$49<span>/mo</span></div>
+        <p class="pricing-desc">For product teams who need full coverage across a bigger competitive landscape.</p>
+        <ul class="pricing-features">
+          <li>Up to 15 competitors</li>
+          <li>Weekly email briefing</li>
+          <li>Multiple recipients</li>
+          <li>7-section AI analysis</li>
+          <li>Powered by Claude AI</li>
+        </ul>
+        <a class="btn-plan" href="https://apify.com/ivizaai/competitor-intelligence" target="_blank">Get started</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EMAIL CAPTURE -->
+<section class="capture" id="early-access">
+  <div class="container">
+    <div class="section-label">Early access</div>
+    <h2 class="section-title">Want a managed plan? Join the list.</h2>
+    <p class="section-sub">We're launching managed BriefEdge plans — set up once and we handle everything. Leave your email and we'll let you know first.</p>
+    <form class="capture-form" action="https://formspree.io/f/mnjyqyyo" method="POST">
+      <input type="email" name="email" placeholder="your@email.com" required>
+      <button type="submit">Notify me</button>
+    </form>
+    <p class="capture-note">No spam. One email when we launch. That's it.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Brief<span>Edge</span></div>
+  <p>Weekly competitive intelligence, on autopilot.<br>Powered by Apify + Claude AI.</p>
+  <div class="footer-links">
+    <a href="https://apify.com/ivizaai/competitor-intelligence" target="_blank">Apify Store</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#early-access">Early access</a>
+    <a href="mailto:support@briefedge.co.uk">support@briefedge.co.uk</a>
+  </div>
+</footer>
+
+</body>
+</html>
